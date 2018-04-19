@@ -31,16 +31,20 @@ def api_root(request, format=None):
         'articles': reverse('article-list', request=request, format=format)
     })
 
+
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     lookup_field = 'uid'
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 
+
 class ArticleMarkdown(generics.GenericAPIView):
+    lookup_field = 'uid'
     queryset = Article.objects.all()
     renderer_classes = (renderers.StaticHTMLRenderer,)
 

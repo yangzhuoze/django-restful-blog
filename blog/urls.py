@@ -6,6 +6,7 @@ from blog import views
 urlpatterns = [
     path(r'articles/', views.ArticleList.as_view(), name='article-list'),
     path(r'articles/<uid>/', views.ArticleDetail.as_view(), name='article-detail'),
+    path(r'articles/<uid>/markdown/', views.ArticleMarkdown.as_view(), name='article-markdown'),
     path(r'', views.api_root, name='article-list'),
 ]
 

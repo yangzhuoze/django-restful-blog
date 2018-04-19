@@ -36,6 +36,7 @@ class ArticleList(generics.ListCreateAPIView):
     serializer_class = ArticleSerializer
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'uid'
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
 

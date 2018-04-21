@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import generics, renderers
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
+from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
@@ -33,8 +34,8 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 class ArticleMarkdown(generics.GenericAPIView):
     lookup_field = 'uid'
     queryset = Article.objects.all()
-    renderer_classes = (MarkdownRenderer,)
+    renderer_classes = (StaticHTMLRenderer,)
 
     def get(self, request, *args, **kwargs):
         article = self.get_object()
-        return Response(article.body_raw)
+        return Response(article.body)

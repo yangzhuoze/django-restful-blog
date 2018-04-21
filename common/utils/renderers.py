@@ -19,6 +19,12 @@ class HighlighterRenderer(HtmlRenderer):
         return '\n<pre><code>{}</code></pre>\n'.format(text.strip())
 
 
+def markdown(data):
+    renderer = HighlighterRenderer()
+    md = Markdown(renderer, extensions=('fenced-code',))
+    return md(data)
+
+
 class MarkdownRenderer(BaseRenderer):
     media_type = 'text/html'
     format = 'html'

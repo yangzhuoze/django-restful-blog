@@ -1,6 +1,7 @@
 from django.db import models
 
 from common.utils.generate import uid_generate
+from common.utils.renderers import markdown
 
 
 class Article(models.Model):
@@ -15,3 +16,8 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('-created_time', )
+
+    def save(self, *args, **kwargs):
+        self.body = markdown(self.body_raw)
+        super(Article, self).save(*args, **kwargs)
+

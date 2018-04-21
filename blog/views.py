@@ -8,8 +8,8 @@ from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
-from blog.models import Article
-from blog.serializers import ArticleSerializer
+from blog.models import Article, Tag
+from blog.serializers import ArticleSerializer, TagSerializer
 from common.utils.renderers import MarkdownRenderer
 
 
@@ -18,6 +18,11 @@ def api_root(request, format=None):
     return Response({
         'articles': reverse('article-list', request=request, format=format)
     })
+
+
+class TagList(generics.ListCreateAPIView):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
 
 
 class ArticleList(generics.ListCreateAPIView):

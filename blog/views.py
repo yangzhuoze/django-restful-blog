@@ -51,3 +51,9 @@ class TagList(generics.ListCreateAPIView):
     lookup_field = 'name'
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
+
+
+class TagDetail(generics.RetrieveAPIView):
+    lookup_field = 'name'
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer

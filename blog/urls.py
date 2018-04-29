@@ -8,6 +8,7 @@ urlpatterns = [
     path(r'articles/<uid>/', views.ArticleDetail.as_view(), name='article-detail'),
     path(r'articles/<uid>/markdown/', views.ArticleMarkdown.as_view(), name='article-markdown'),
     path(r'tags/', views.TagList.as_view(), name='tag-list'),
+    path(r'tags/<name>/', views.TagDetail.as_view(), name='tag-detail'),
     path(r'', views.api_root, name='blog'),
 ]
 

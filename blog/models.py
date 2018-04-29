@@ -13,6 +13,8 @@ class Article(models.Model):
     modified_time = models.DateTimeField('修改时间', auto_now=True)
     views_count = models.PositiveIntegerField('浏览量', default=0)
 
+    tags = models.ManyToManyField('Tag', related_name='articles', verbose_name='标签')
+
     class Meta:
         ordering = ('-created_time',)
 

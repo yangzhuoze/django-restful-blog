@@ -16,7 +16,8 @@ from common.utils.renderers import MarkdownRenderer
 @api_view(['GET'])
 def api_root(request, format=None):
     return Response({
-        'articles': reverse('article-list', request=request, format=format)
+        'articles': reverse('article-list', request=request, format=format),
+        'tags': reverse('tag-list', request=request, format=format)
     })
 
 
@@ -44,3 +45,9 @@ class ArticleMarkdown(generics.GenericAPIView):
     def get(self, request, *args, **kwargs):
         article = self.get_object()
         return Response(article.body)
+
+
+class TagList(generics.ListCreateAPIView):
+    lookup_field = 'name'
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer

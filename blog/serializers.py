@@ -11,6 +11,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
 
 class TagSerializer(serializers.ModelSerializer):
+    articles = serializers.StringRelatedField(many=True)
+
     class Meta:
         model = Tag
-        fields = '__all__'
+        fields = ('id', 'name', 'articles')

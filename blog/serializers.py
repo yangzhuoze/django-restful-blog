@@ -1,16 +1,12 @@
 from rest_framework import serializers
-
 from blog.models import Article, Tag
 
 
-class ArticleSerializer(serializers.ModelSerializer):
-    # tags = serializers.SlugRelatedField(slug_field='name', many=True, queryset=Tag.objects.all(), )
-    tags = serializers.HyperlinkedRelatedField(
-        view_name='tag-detail',
-        queryset=Tag.objects.all(),
-        many=True,
-        allow_null=True,
-        lookup_field='name'
+class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+    tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Tag.objects.all(), )
+    url = serializers.HyperlinkedIdentityField(
+        view_name='article-detail',
+        lookup_field='uid'
     )
 
     class Meta:
@@ -19,9 +15,22 @@ class ArticleSerializer(serializers.ModelSerializer):
         read_only_fields = ('uid', 'body', 'views_count', 'tags')
 
 
+class TagArticleSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(
+        view_name='article-detail',
+        lookup_field='uid'
+    )
+
+    class Meta:
+        model = Article
+        fields = ('uid', 'title', 'url')
+
+
 class TagSerializer(serializers.ModelSerializer):
-    articles = serializers.SlugRelatedField(many=True, read_only=True, slug_field='title')
+    articles = TagArticleSerializer(many=True)
 
     class Meta:
         model = Tag
+        depth = 1
         fields = '__all__'
+        read_only_fields = ('articles_set',)

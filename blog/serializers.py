@@ -23,14 +23,12 @@ class TagArticleSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('uid', 'title', 'url')
+        fields = ('title', 'url')
 
 
 class TagSerializer(serializers.ModelSerializer):
-    articles = TagArticleSerializer(many=True)
+    articles = TagArticleSerializer(many=True, read_only=True)
 
     class Meta:
         model = Tag
-        depth = 1
-        fields = '__all__'
-        read_only_fields = ('articles_set',)
+        fields = ('name', 'articles')

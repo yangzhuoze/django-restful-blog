@@ -2,28 +2,29 @@ from rest_framework import serializers
 from blog.models import Article, Tag
 
 
-class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleSerializer(serializers.ModelSerializer):
     tags = serializers.SlugRelatedField(many=True, slug_field='name', queryset=Tag.objects.all(), )
-    url = serializers.HyperlinkedIdentityField(
-        view_name='article-detail',
-        lookup_field='uid'
-    )
+    # url = serializers.HyperlinkedIdentityField(
+    #     view_name='article-detail',
+    #     lookup_field='uid'
+    # )
 
     class Meta:
         model = Article
         fields = '__all__'
+        # fields = ('uid', 'title', 'created_time', 'tags')
         read_only_fields = ('uid', 'body', 'views_count', 'tags')
 
 
-class TagArticleSerializer(serializers.HyperlinkedModelSerializer):
-    url = serializers.HyperlinkedIdentityField(
-        view_name='article-detail',
-        lookup_field='uid'
-    )
+class TagArticleSerializer(serializers.ModelSerializer):
+    # url = serializers.HyperlinkedIdentityField(
+    #     view_name='article-detail',
+    #     lookup_field='uid'
+    # )
 
     class Meta:
         model = Article
-        fields = ('title', 'url')
+        fields = ('title', 'uid')
 
 
 class TagSerializer(serializers.ModelSerializer):

@@ -2,7 +2,19 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 
 from blog import views
-from blog.views import TagViewSet, ArticleViewSet, ConfigViewSet
+from blog.views import TagViewSet, ArticleViewSet, ConfigViewSet, UserViewSet, GroupViewSet
+
+user_list = UserViewSet.as_view({
+    'get': 'list',
+})
+
+user_detail = UserViewSet.as_view({
+    'get': 'retrieve',
+})
+
+group_list = GroupViewSet.as_view({
+    'get': 'list',
+})
 
 config_list = ConfigViewSet.as_view({
     'get': 'list',
@@ -38,6 +50,8 @@ tag_detail = TagViewSet.as_view({
 })
 
 urlpatterns = format_suffix_patterns([
+    path(r'users/', user_list, name='users-list'),
+    path(r'users/<pk>', user_detail, name='users-detail'),
     path(r'configs/', config_list, name='configs-list'),
     path(r'configs/<uid>/', config_detail, name='configs-detail'),
     path(r'articles/', article_list, name='article-list'),

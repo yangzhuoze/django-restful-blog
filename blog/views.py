@@ -1,3 +1,5 @@
+from django.contrib.auth.models import User, Group
+from oauth2_provider.contrib.rest_framework import permissions, TokenHasReadWriteScope, TokenHasScope
 from rest_framework import generics, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.renderers import StaticHTMLRenderer
@@ -5,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 
 from blog.models import Article, Tag, Config
-from blog.serializers import ArticleSerializer, TagSerializer, ArticleSimpleSerializer, ConfigSerializer
+from blog.serializers import ArticleSerializer, TagSerializer, ArticleSimpleSerializer, ConfigSerializer, \
+    UserSerializer, GroupSerializer
 
 
 @api_view(['GET'])
@@ -14,6 +17,19 @@ def api_root(request, format=None):
         'articles': reverse('article-list', request=request, format=format),
         'tags': reverse('tag-list', request=request, format=format)
     })
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    required_scopes = ['groups']
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
 
 
 class ConfigViewSet(viewsets.ModelViewSet):

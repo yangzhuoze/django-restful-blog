@@ -1,5 +1,18 @@
 from rest_framework import serializers
-from blog.models import Article, Tag
+from blog.models import Article, Tag, Config
+
+
+class ConfigSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Config
+        fields = '__all__'
+
+
+class ArticleSimpleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = ('uid', 'title', 'created_time')
+        read_only_fields = ('uid', 'title', 'created_time')
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -12,7 +25,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-        # fields = ('uid', 'title', 'created_time', 'tags')
         read_only_fields = ('uid', 'body', 'views_count', 'tags')
 
 

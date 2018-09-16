@@ -4,6 +4,11 @@ from common.utils.generate import uid_generate
 from common.utils.renderers import markdown
 
 
+class Config(models.Model):
+    key = models.CharField('键', max_length=64, null=False, blank=False, unique=True)
+    value = models.CharField('值', max_length=255, null=False)
+
+
 class Article(models.Model):
     uid = models.CharField('UID', max_length=8, default=uid_generate, editable=False, unique=True)
     title = models.CharField('标题', max_length=128)
